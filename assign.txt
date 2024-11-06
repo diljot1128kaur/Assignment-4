@@ -1,0 +1,21 @@
+
+show dbs
+use school
+db.createCollection("student")
+db.student.insertMany([{"name":"diljot","age":"18","grade":"B"},{"name":"geetika","age":"19","grade":"A"},{"name":"diya","age":"19","grade":"O"}])
+db.student.find()
+db.student.find({age:{$gt:"18"}})
+db.student.find({age:{$gt:"18", $lt:"23"}})
+db.student.insertOne({"name":"john","age":"21","grade":"C"})
+db.student.updateOne({"name":"john"},{$set:{"grade":"A"}})
+db.student.insertOne({"name":"emily","age":"20","grade":"D"})
+db.student.find()
+db.student.deleteOne({ name:"emily"})
+db.student.countDocuments({grade: "A"})
+db.student.find( {} , {name: 1, grade: 1, _id:0})
+db.student.find().sort({age: -1})
+
+
+
+
+https://github.com/diljot1128kaur/Assignment-4
