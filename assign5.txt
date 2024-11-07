@@ -1,0 +1,80 @@
+// 1
+db.students.insertMany([{"name":"max","age":"19","grade":"B"},{"name":"alex","age":"17","grage":"C"},{"name":"ava","age":"19","grade":"B"}])
+db.students.find()
+db.students.find({grade:{$ne : "A"}},{name:1,grade:1,_id:0})
+
+// 2 
+db.students.find({age:{$lt:"18"}},{name:1,age:1,class:1,_id:0})
+
+// 3
+ db.employees.insertMany([{employee_id:1,name:"ajay",department:"HR",experience:5},{employee_id:2,name:"shaurya",department:"Software Engineer",experience:4},{employee_id:3,name:"jush",department:"Sales",experience:3}])
+ db.employees.find()
+  db.employees.find({experience:{$lt:10}},{name:1,department:1,_id:0})
+
+// 4
+use course
+db.createCollection("course")
+db.course.insertMany([{course_name:"java",instructor:"manju",duration:3},{course_name:"cpp",instructor:"kajal",duration:2},{course_name:"system design",instructor:"payal",duration:2}])
+db.course.find({duration:{$gte:12}},{course_name:1,instructor:1,_id:0})
+
+//5
+use shop
+db.createCollection("inventory")
+db.inventory.insertMany([{item_name:"chips",price:20,stock:50},{item_name:"kurkure",price:30,stock:60},{item_name:"juice",price:140,stock:70},{item_name:"cake",price:450,stock:600}])
+db.inventory.find()
+db.inventory.find({price:{$lte:100}},{item_name:1,price:1,_id:0})
+
+//6
+use Chitkara
+db.students.find()
+db.students.find({name:{$in:["geetika","john","ava","max","alex"]}},{name:1,_id:0})
+
+//7
+use book
+db.createCollection("library")
+db.library.insertMany([{title:"twisted love",author:"ana huang",pages:500},{title:"last letter",author:"monica",pages:3477},{title:"productive growth",author:"evans dave",pages:5678}])
+db.library.find({pages:{$lt:500 , $gt:150}},{title:1,pages:1,_id:0})
+
+//8
+use company
+db.employees.insertMany([
+   { name: "Alice", department: "IT", salary: 70000 },
+    { name: "Bob", department: "HR", salary: 50000 },
+    { name: "Charlie", department: "IT", salary: 80000 },
+    { name: "David", department: "Marketing", salary: 65000 },
+   { name: "Eva", department: "Finance", salary: 75000 },
+    { name: "Frank", department: "HR", salary: 55000 }
+   ]);
+
+   db.employees.find(
+    { department: { $ne: "HR" }, salary: { $gt: 60000 } },
+    { name: 1, salary: 1, _id: 0 }
+    )
+
+//9
+use order
+ db.orders.insertMany([
+ { order_id: 1, status: "shipped", total_amount: 100 },
+ { order_id: 2, status: "pending", total_amount: 200 },
+  { order_id: 3, status: "shipped", total_amount: 150 },
+  { order_id: 4, status: "delivered", total_amount: 300 },
+ ]);
+db.orders.find(
+    { status: { $in: ["completed", "in progress"] } },
+    { order_id: 1, status: 1, _id: 0 }
+)
+
+//10
+use university
+ db.students.insertMany([
+    { name: "Alice", roll: 501, department: "Biology" },
+     { name: "Bob", roll: 502, department: "Chemistry" },
+    { name: "Charlie", roll: 503, department: "Physics" },
+ ])
+
+    db.students.find(    {
+        roll: { $gte: 500 },
+         department: { $in: ["Biology", "Chemistry", "Physics"] }
+     },
+     { name: 1, roll: 1, department: 1, _id: 0 }
+ )
