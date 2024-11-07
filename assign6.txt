@@ -1,0 +1,50 @@
+//1
+db.employee.insertMany([{name:"alice",age:28,experience:3,department:"sales"},{name:"bob",age:35,experience:6,department:"marketing"},{name:"eve",age:40,experience:7,department:"support"},{name:"grace",age:45,experience:8,department:"development"}])
+db.employee.find({$or:[{age:{$gt:30}},{experience:{$gt:5}}]})
+
+//2
+db.createCollection("products")
+db.products.insertMany([{product_name:"mobiles",stock:"$70",price:"$20"},{product_name:"laptops",stock:"$60",price:"$40"},{product_name:"headphones",stock:"$40",price:"$10"},{product_name:"shoes",stock:"$50",price:"$10"}])
+db.products.find({stock:{$gt:"$0"},price:{$lt:"$50"}})
+ 
+ //3
+db.createCollection("students")
+db.students.insertMany([  { name: "Alice", enrolled: true, grade: "B" },{ name: "Bob", enrolled: false, grade: "A" },{ name: "Charlie", enrolled: true, grade: "D" },{ name: "David", enrolled: false, grade: "F" },{ name: "Eve", enrolled: true, grade: "C" },{ name: "Frank", enrolled: false, grade: "B" }])
+ db.students.find({ $or: [{ enrolled: false },{ grade: { $lt: "C" } } ] })
+
+
+//4
+db.createCollection("courses")
+db.courses.insertMany([{course:"healthcare",duration:5,instrutor:"david"},{course:"blockchain",duration:7,instructor:"sarah"},{course:"AI",duration:3,instructor:"bob"},{course:"blockchain",duration:2},{course:"pyschology",duration:6,instructor:"olive"}])
+db.courses.find({$or:[{duration:{$lt:6}},{instructor:{$exists:false}}]})
+
+//5
+db.createCollection("orders")
+db.orders.insertMany([{order_id: 1, status: 'completed', total_amount: 250, shipped_date: new Date('2024-11-01')}, {order_id: 2, status: 'in progress', total_amount: 100, shipped_date: null}, {order_id: 3, status: 'completed', total_amount: 500, shipped_date: new Date('2024-11-05')}, {order_id: 4, status: 'shipped', total_amount: 200, shipped_date: new Date('2024-11-03')}, {order_id: 5, status: 'in progress', total_amount: 150, shipped_date: nunull}]);
+db.orders.find({$or: [{status: {$ne: "shipped"}}, {shipped_date: {$exists: false}}]})
+
+
+//6
+db.employee.find({department:{$nin:["engineering","IT"]}},{name:1,de
+department:1})
+
+
+//7
+db.createCollection("student")
+db.students.insertMany([{ name: "Alice", exam_score: 45, participation: false },{ name: "Bob", exam_score: 80, participation: true },{ name: "Charlie", exam_score: 30, participation: false },{ name: "David", exam_score: 65, participation: true },{ name: "Eve", exam_score: 40, participation: false },{ name: "Frank", exam_score: 55, participation: true }])
+db.students.find({exam_score: { $lt: 50 },participation: false})
+
+//8
+db.employee.find({department: "Sales",$or: [{ experience: { $gt: 3 } },{ age: { $lt: 25 } }]})
+
+
+//9
+db.createCollection("Inventory")
+db.inventory.insertMany([{ item: "item1", price: 80, stock: 50 },{ item: "item2", price: 120, stock: 30 },{ item: "item3", price: 40 },{ item: "item4", stock: 0 },{ item: "item5", price: 90, stock: 25 },{ item: "item6", stock: 100 },{ item: "item7" }])
+db.inventory.find({$or: [{ price: { $exists: true, $lt: 100 } }, { stock: { $exists: false } }]})
+
+
+//10
+db.courses.find()
+db.courses.find({$or: [{instructor :{$ne: "smith"}},{duration: {$lt:10}}]})
+db.courses.find({instructor: {$ne: "smith"}, duration: {$lte: 10}})
