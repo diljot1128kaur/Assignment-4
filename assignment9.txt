@@ -1,0 +1,161 @@
+//1
+use myStoreDB
+db.createCollection("orders")
+db.orders.insertMany([{ orderId: 1, orderTotal: 150, orderStatus: "shipped" },{ orderId: 2, orderTotal: 90, orderStatus: "pending" },{ orderId: 3, orderTotal: 200, orderStatus: "shipped" },{ orderId: 4, orderTotal: 50, orderStatus: "cancelled" },])
+db.orders.find({ orderTotal: { $gt: 100 }, orderStatus: "shipped" })
+
+//2
+use salesDB
+db.createCollection("sales")
+db.sales.insertMany([{ productId: 1, category: "electronics", quantity: 10 },{ productId: 2, category: "clothing", quantity: 5 },{ productId: 3, category: "electronics", quantity: 8 },{ productId: 4, category: "clothing", quantity: 12 },{ productId: 5, category: "books", quantity: 20 },{ productId: 6, category: "electronics", quantity: 15 }])
+db.sales.aggregate([{$group: { _id: "$category", totalQuantity: {$sum: "$quantity"}}}])
+
+//3
+use ecommerce
+db.createCollection("orders")
+db.orders.insertMany([{ orderId: 101, userId: 1, orderTotal: 150, orderStatus: "shipped" },{ orderId: 102, userId: 1, orderTotal: 100, orderStatus: "pending" },{ orderId: 103, userId: 2, orderTotal: 200, orderStatus: "shipped" }])
+
+db.createCollection("users")
+db.users.insertMany([{ userId: , name: "Alice" },{ userId: 2, name: "Bob" },{ userId: 3, name: "Charlie" }])
+
+db.users.aggregate([
+    { $lookup: 
+            from: "orders",localField: "userId",foreignField: "userId",as: "userOrders"}}])
+
+show dbs
+db.createCollection("transactions")
+db.transactions.find() 
+db.transactions.insertMany([
+  { "_id": 1, "customerId": "C001", "amount": 120.50 },
+ { "_id": 2, "customerId": "C002", "amount": 75.00 },
+ { "_id": 3, "customerId": "C001", "amount": 55.50 }
+]);
+db.transactions.aggregate([{$group :{_id:"$customerId"}]);
+show order
+db.orders.insertMany([
+   {
+     _id: ObjectId('672b0e30fb518ead1b0d81a4'),
+     order_id: 1,
+     status: 'shipped',
+     total_amount: 100,
+     shipped_date: 7,
+     year: 2023
+   },
+   {
+     _id: ObjectId('672b0e30fb518ead1b0d81a5'),
+     order_id: 2,
+     status: 'pending',
+     total_amount: 200,
+     shipped_date: 0,
+     customer_type: 'VIP',
+     year: 2023
+   },
+   {
+     _id: ObjectId('672b0e30fb518ead1b0d81a6'),
+     order_id: 3,
+     status: 'delivered',
+     total_amount: 300,
+     shipped_date: 7,
+     year: 2023
+   }
+ ]);
+db.orders.insertMany([ { _id: ObjectId('672b0e30fb518ead1b0d81a4'), order_id: 1, status: 'shipped', total_amount: 100, shipped_date: 7, year: 2023 }, { _id: ObjectId('672b0e30fb518ead1b0d81a5'), order_id: 2, status: 'pending', total_amount: 200, shipped_date: 0, customer_type: 'VIP', year: 2023 }, { _id: ObjectId('672b0e30fb518ead1b0d81a6'), order_id: 3, status: 'delivered', total_amount: 300, shipped_date: 7, year: 2023 }] );
+db.orders.aggregate([ { $match: { year: 2023 }
+db.employees.find()
+db.employees.insertMany([
+   { _id: 1, name: "Alice", department_id: 101 },
+   { _id: 2, name: "Bob", department_id: 102 },
+   { _id: 3, name: "Charlie", department_id: 101 },
+   { _id: 4, name: "David", department_id: 103 }
+ ]);
+ db.departments.insertMany([
+  { _id: 101, name: "Sales" },
+  { _id: 102, name: "Marketing" },
+  { _id: 103, name: "IT" }
+]);
+
+db.employees.aggregate([
+   {
+     $lookup: {
+       from: "departments",
+       localField: "department_id",
+       foreignField: "_id",
+       as: "department_info"
+     }
+   },
+   {$unwind: "$department_info },
+   {$match: { "department_info.name": "Sales" }},
+   {$project: { name: 1, "department_info.name": 1, _id: 0 }
+   }
+ ]);
+
+ db.products.find()
+ 
+shop> db.products.deleteMany({})
+{ acknowledged: true, deletedCount: 4 }
+hop> db.products.insertMany([
+ { _id: 1, category: "Electronics", brand: "Apple", sales: 500 },
+ { _id: 2, category: "Electronics", brand: "Samsung", sales: 300 },
+ { _id: 3, category: "Electronics", brand: "Apple", sales: 700 },
+  { _id: 4, category: "Furniture", brand: "Ikea", sales: 200 },
+
+]);
+
+db.products.aggregate([
+   {
+     $group: {
+       _id: { category: "$category", brand: "$brand" },
+       total_sales: { $sum: "$sales" }
+     }
+   },
+   {
+     $project: { _id: 0, category: "$_id.category", brand: "$_id.brand", total_sales: 1 }
+   }
+ ]);
+
+ use library
+  db.books.insertMany([
+  { _id: 1, bookId: 101, title: "Book A" },
+  { _id: 2, bookId: 102, title: "Book B" },
+  { _id: 3, bookId: 103, title: "Book C" }
+]);
+
+db.borrowRecords.aggregate([ { $lookup: { from: "books", localField: "bookId", foreignField: "bookId", as: "book_info" } }, { $unwind: "$book_info" }, { $group: { _id: "$bookId", borrow_count: { $sum: 1 }, title: { $first: "$book_info.title" } } }, { $project: { _id: 0, title: 1, borrow_count: 1 } }] );
+use order
+ show collections
+ db.orders.deleteMany({})
+ db.orders.insertMany([
+   { _id: 1, order_id: 101, total_amount: 100, customer_type: "VIP" },
+   { _id: 2, order_id: 102, total_amount: 200, customer_type: "Regular" },
+   { _id: 3, order_id: 103, total_amount: 150, customer_type: "VIP" },
+ ]);
+ db.orders.aggregate([
+   {$match: { customer_type: "VIP" }},
+   {$group: {_id: null,total_revenue: { $sum: "$total_amount" }}}]);
+db.orders.aggregate([ { $match: { customer_type: "VIP" } }, { $group: { _id: null, total_revenue: { $sum: "$total_amount" } } }] );
+[ { _id: null, total_revenue: 300 } ]
+
+
+db.reviews.insertMany([
+   { _id: 1, productId: 101, rating: 4 },
+   { _id: 2, productId: 102, rating: 5 },
+   { _id: 3, productId: 101, rating: 3 },
+   { _id: 4, productId: 103, rating: 4 },
+   { _id: 5, productId: 101, rating: 5 }
+ ]);
+
+ db.reviews.aggregate([
+  {
+    $group: {
+      _id: "$productId",
+      average_rating: { $avg: "$rating" }
+    }
+  },
+ ])
+  {
+    $project: { _id: 0, productId: "$_id", average_rating: 1 }}
+
+
+db.customer.insertMany([{name:"geetika",customerid:101,total_amount:1200} , {name:"dd",customerid:102,total_amount:20000} , {name:"oops" , customerid:103 , total_amount:23000} ])
+db.customer.aggregate([{$group : {_id:customerid ,total_spent: {$sum : $total_amount}}} ])
+
